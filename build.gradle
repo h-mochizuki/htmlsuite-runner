@@ -1,0 +1,57 @@
+apply plugin: 'groovy'
+apply plugin: 'eclipse'
+apply plugin: 'application'
+
+defaultTasks 'cleanEclipse', 'eclipse'
+
+// -- options
+def enc = 'UTF-8'
+[compileJava, compileGroovy, compileTestJava, compileTestGroovy].each{it.options.encoding = enc}
+[compileGroovy, compileTestGroovy].each{it.groovyOptions.encoding = enc}
+
+// -- application main class
+mainClassName = 'sample.selenium.testsuite.HtmlSuiteRunner'
+run {
+	if (project.hasProperty('args')) {
+		args project.args
+	}
+}
+
+// -- setting for dependencies
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  groovy 'org.codehaus.groovy:groovy-all:1.8.6'
+  compile 'org.seleniumhq.selenium:selenium-server:2.24.1'
+  testCompile 'org.spockframework:spock-core:0.6-groovy-1.8'
+}
+
+// -- setting for eclipse
+eclipse {
+
+  classpath {
+    defaultOutputDir = compileJava.destinationDir
+    downloadSources = true
+    downloadJavadoc = true
+  }
+}
+
+// -- task to build without gradle
+task wrapper(type: Wrapper) {
+	gradleVersion = '1.0-rc-3'
+}
+
+// -- task to stop selenium-server
+task stopServer() << {
+	println 'waiting selenium-server shutdown...'
+	def url = 'http://localhost:4444/selenium-server/driver/?cmd=shutDownSeleniumServer'
+	try {
+		println new URL(url).getText()
+	} catch (ConnectException e) {
+		// selenium-server was down.
+	}
+	println 'selenium-server is down.'
+}
+run.dependsOn stopServer
