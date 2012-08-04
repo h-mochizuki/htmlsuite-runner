@@ -28,7 +28,7 @@ class HtmlSuiteLauncherSpock extends Specification {
 				it.delete()
 			}
 		}
-		new File(TEST_DIR).delete()
+		new File(TEST_DIR).deleteDir()
 	}
 
 	def 'テキストを指定してテストスイート実行'() {
