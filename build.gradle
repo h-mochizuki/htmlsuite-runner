@@ -10,7 +10,7 @@ def enc = 'UTF-8'
 [compileGroovy, compileTestGroovy].each{it.groovyOptions.encoding = enc}
 
 // -- application main class
-mainClassName = 'sample.selenium.testsuite.HtmlSuiteRunner'
+mainClassName = 'htmlsuite.HtmlSuiteRunner'
 run {
 	if (project.hasProperty('args')) {
 		args project.args

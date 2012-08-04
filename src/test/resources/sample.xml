@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suites-config>
+    <baseUrl>http://www.google.co.jp</baseUrl>
+    <resultDir>HtmlSuiteLauncherSpock</resultDir>
+    <suites>
+        <suite suiteFile="src/test/resources/グーグル検索スイート1.html" />
+        <suite suiteFile="src/test/resources/グーグル検索スイート2.html" />
+    </suites>
+</suites-config>
