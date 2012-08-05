@@ -11,8 +11,6 @@ class HtmlSuiteLauncher {
 
 	private static final String TEST_URL_PATH = "../tests/"
 	HtmlSuiteRunnerConfiguration configuration
-	int suitesCnt = 0
-	int passCnt = 0
 
 	static boolean runSuites(HtmlSuiteRunnerConfiguration config) {
 		return new HtmlSuiteLauncher(configuration: config).executeSuites()
@@ -27,7 +25,6 @@ class HtmlSuiteLauncher {
 	boolean executeSuites() {
 		def server = new SeleniumServer(configuration)
 		def suites = configuration.suites
-		suitesCnt = suites.size()
 		boolean passed = true
 		try {
 			server.start()
@@ -44,9 +41,7 @@ class HtmlSuiteLauncher {
 						suite.timeoutInSeconds,
 						suite.multiWindow))
 				suite.setSuiteResult(launcher.getResults())
-				if (suite.passed) {
-					passCnt++
-				} else {
+				if (!suite.passed) {
 					passed = false
 				}
 			}

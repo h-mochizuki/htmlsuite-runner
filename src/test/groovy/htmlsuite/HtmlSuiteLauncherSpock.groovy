@@ -39,6 +39,7 @@ class HtmlSuiteLauncherSpock extends Specification {
 		result = HtmlSuiteLauncher.runSuites(HtmlSuiteRunnerConfiguration.loadText("""<?xml version="1.0" encoding="UTF-8"?>
 			<suites-config>
 				<baseUrl>http://www.google.co.jp</baseUrl>
+				<browsers>*firefox, *firefox</browsers>
 				<suites>
 					<suite>suite-${TEST_FILE}</suite>
 				</suites>
