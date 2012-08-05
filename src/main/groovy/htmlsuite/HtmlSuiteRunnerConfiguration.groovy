@@ -110,7 +110,7 @@ class HtmlSuiteRunnerConfiguration extends RemoteControlConfiguration {
 
 			// ブラウザ別にスイートモデルを作成
 			String browsers = suite.@browsers.text() ?: suite.browsers?.text() ?: conf.browsers
-			browsers.split(',').findAll {!it.trim()?.isEmpty()}.each { browser ->
+			browsers.split(',').collect{it?.trim()}.findAll {!it.isEmpty()}.each { browser ->
 				conf.suites << new HtmlSuite(
 					browser: browser,
 					baseUrl: baseUrl,
