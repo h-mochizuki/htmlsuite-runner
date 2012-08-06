@@ -15,7 +15,7 @@ SeleniumServerで複数のHTMLテストスイートを実行するための拡張アプリです。
 		<browsers>*firefox</browsers><!-- 使用ブラウザ(任意。デフォルトは「*firefox」) -->
 		<baseUrl>http://www.google.co.jp</baseUrl><!-- ブラウザ起動時のURL(必須) -->
 		<port>4444</port><!-- Seleniumサーバのポート番号(任意。デフォルトは「4444」) -->
-		<timeoutInSeconds>60000</timeoutInSeconds><!-- タイムアウト秒数(任意。デフォルトは180000秒) -->
+		<timeoutInSeconds>60000</timeoutInSeconds><!-- タイムアウト秒数(任意。デフォルトは1800秒) -->
 		<resultDir>.</resultDir><!-- テスト結果出力フォルダ(任意。デフォルトはカレントディレクトリ) -->
 		<multiWindow>false</multiWindow><!-- 実行時のウィンドウ分割(任意。デフォルトは「false」) -->
 		<suites>
