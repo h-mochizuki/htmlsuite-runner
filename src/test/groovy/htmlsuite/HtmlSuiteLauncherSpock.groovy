@@ -3,14 +3,14 @@ package htmlsuite
 import spock.lang.Specification
 
 /**
- * HtmlSuiteÀs‚ÌƒeƒXƒg
+ * HtmlSuiteå®Ÿè¡Œã®ãƒ†ã‚¹ãƒˆ
  * @author hidetoshi.mochizuki
  */
 class HtmlSuiteLauncherSpock extends Specification {
 
-	// ƒeƒXƒgƒtƒ@ƒCƒ‹–¼
+	// ãƒ†ã‚¹ãƒˆãƒ•ã‚¡ã‚¤ãƒ«å
 	def TEST_FILE = 'HtmlSuiteLauncherSpock.html'
-	// ƒeƒXƒgƒfƒBƒŒƒNƒgƒŠ–¼
+	// ãƒ†ã‚¹ãƒˆãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªå
 	def TEST_DIR = 'HtmlSuiteLauncherSpock'
 
 	def setup() {
@@ -31,7 +31,7 @@ class HtmlSuiteLauncherSpock extends Specification {
 		new File(TEST_DIR).deleteDir()
 	}
 
-	def 'ƒeƒLƒXƒg‚ğw’è‚µ‚ÄƒeƒXƒgƒXƒC[ƒgÀs'() {
+	def 'ãƒ†ã‚­ã‚¹ãƒˆã‚’æŒ‡å®šã—ã¦ãƒ†ã‚¹ãƒˆã‚¹ã‚¤ãƒ¼ãƒˆå®Ÿè¡Œ'() {
 		setup:
 		def result = false
 
@@ -50,7 +50,7 @@ class HtmlSuiteLauncherSpock extends Specification {
 		result == true
 	}
 
-	def 'ƒtƒ@ƒCƒ‹‚ğw’è‚µ‚ÄƒeƒXƒgƒXƒC[ƒgÀs'() {
+	def 'ãƒ•ã‚¡ã‚¤ãƒ«ã‚’æŒ‡å®šã—ã¦ãƒ†ã‚¹ãƒˆã‚¹ã‚¤ãƒ¼ãƒˆå®Ÿè¡Œ'() {
 		setup:
 		def result = false
 
@@ -61,7 +61,7 @@ class HtmlSuiteLauncherSpock extends Specification {
 		result == true
 	}
 
-	// ƒeƒXƒgƒXƒC[ƒgƒeƒ“ƒvƒŒ[ƒg
+	// ãƒ†ã‚¹ãƒˆã‚¹ã‚¤ãƒ¼ãƒˆãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆ
 	String testSuiteTemplate = """<?xml version="1.0" encoding="UTF-8"?>
 		<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 		<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
@@ -77,7 +77,8 @@ class HtmlSuiteLauncherSpock extends Specification {
 			</body>
 		</html>
 	"""
-	// ƒeƒXƒgƒeƒ“ƒvƒŒ[ƒg
+
+	// ãƒ†ã‚¹ãƒˆãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆ
 	String testTemplate = """<?xml version="1.0" encoding="UTF-8"?>
 		<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 		<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">

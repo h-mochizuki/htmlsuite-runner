@@ -4,7 +4,7 @@ import org.openqa.selenium.server.SeleniumServer
 import org.openqa.selenium.server.htmlrunner.HTMLLauncher
 
 /**
- * HTMLSuite‚ğÀs‚µ‚Ä‘S‘Ì‚ÌŒ‹‰Ê‚ğ•Ô‹p‚µ‚Ü‚·B
+ * HTMLSuiteã‚’å®Ÿè¡Œã—ã¦å…¨ä½“ã®çµæœã‚’è¿”å´ã—ã¾ã™ã€‚
  * @author hidetoshi.mochizuki
  */
 class HtmlSuiteLauncher {
@@ -17,9 +17,9 @@ class HtmlSuiteLauncher {
 	}
 
 	/**
-	 * ƒeƒXƒgƒXƒC[ƒg‚ğÀs‚µ‚Ä‘S‘Ì‚ÌŒ‹‰Ê‚ğ•Ô‚µ‚Ü‚·B
+	 * ãƒ†ã‚¹ãƒˆã‚¹ã‚¤ãƒ¼ãƒˆã‚’å®Ÿè¡Œã—ã¦å…¨ä½“ã®çµæœã‚’è¿”ã—ã¾ã™ã€‚
 	 * @param server SeleniumServer
-	 * @param suites ƒeƒXƒgƒXƒC[ƒg‚ÌƒŠƒXƒg
+	 * @param suites ãƒ†ã‚¹ãƒˆã‚¹ã‚¤ãƒ¼ãƒˆã®ãƒªã‚¹ãƒˆ
 	 * @return
 	 */
 	boolean executeSuites() {

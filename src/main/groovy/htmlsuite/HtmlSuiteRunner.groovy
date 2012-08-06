@@ -1,14 +1,14 @@
 package htmlsuite
 
 /**
- * Selenium-server‚ð‹N“®‚µAƒeƒXƒg‚ðŽÀs‚µ‚Ü‚·B
+ * Selenium-serverã‚’èµ·å‹•ã—ã€ãƒ†ã‚¹ãƒˆã‚’å®Ÿè¡Œã—ã¾ã™ã€‚
  * @author hidetoshi.mochizuki
  */
 class HtmlSuiteRunner {
 
 	/**
-	 * SeleniumƒeƒXƒg‚ðŽÀs‚µ‚Ü‚·B
-	 * @param args XMLƒtƒ@ƒCƒ‹ƒpƒX
+	 * Seleniumãƒ†ã‚¹ãƒˆã‚’å®Ÿè¡Œã—ã¾ã™ã€‚
+	 * @param args XMLãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹
 	 */
 	static main(args) {
 		def result = false
@@ -18,10 +18,7 @@ class HtmlSuiteRunner {
 			result = HtmlSuiteLauncher.runSuites(conf)
 		} catch (Exception e) {
 			if (e instanceof IllegalArgumentException) {
-				println '================='
-				println 'Please enter the xml file-path argument.'
-				println '\tex) ./gradle run -Pargs="/dir/file.xml"'
-				println '================='
+				println 'Please enter the filePath argument.'
 			}
 			e.printStackTrace()
 		}

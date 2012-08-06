@@ -3,7 +3,7 @@ package htmlsuite
 import org.openqa.selenium.server.htmlrunner.HTMLTestResults
 
 /**
- * HTML�e�X�g�X�C�[�g����ێ����郂�f��
+ * HTMテストスイート情報を保持するモデル
  * 
  * @author hidetoshi.mochizuki
  */
@@ -22,7 +22,7 @@ class HtmlSuite {
 	boolean passed = false
 
 	/**
-	 * suiteFile ��ݒ肷��B
+	 * suiteFile を設定する。
 	 * @param file suiteFile
 	 */
 	void setSuiteFile(File file) {
@@ -37,7 +37,7 @@ class HtmlSuite {
 	}
 
 	/**
-	 * resultFile ��ݒ肷��B
+	 * resultFile を設定する。
 	 * @param file resultFile
 	 */
 	void setResultFile(File file) {
@@ -49,7 +49,7 @@ class HtmlSuite {
 			if (suite.size() == 0) {
 				throw new IllegalArgumentException("'suiteFile' is required!")
 			}
-			// �ꉞ�t�H���_������Ă���
+			// 一応フォルダを作っておく
 			file.mkdirs()
 			file = new File(file, RESULT_FILE_PREFIX + suite)
 		}
@@ -60,8 +60,8 @@ class HtmlSuite {
 	}
 
 	/**
-	 * HTMLLauncher�̎��s���ʂ�ݒ肵�܂��B
-	 * @param resultMsg HTMLLauncher�̎��s����
+	 * HTMLLauncherの実行結果を設定します。
+	 * @param resultMsg HTMLLauncherの実行結果
 	 */
 	void setResult(String resultMsg) {
 		passed = PASS_RESULT == resultMsg

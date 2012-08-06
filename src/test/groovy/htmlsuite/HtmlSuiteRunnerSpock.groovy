@@ -5,7 +5,7 @@ import org.openqa.selenium.server.RemoteControlConfiguration
 import spock.lang.Specification
 
 /**
- * HtmlSuiteRunner‚ÌƒeƒXƒg
+ * HtmlSuiteRunnerã®ãƒ†ã‚¹ãƒˆ
  * @author hidetoshi.mochizuki
  */
 class HtmlSuiteRunnerSpock extends Specification {
@@ -14,13 +14,13 @@ class HtmlSuiteRunnerSpock extends Specification {
 	static String TEST_DIR = 'HtmlSuiteRunnerSpock-test'
 	def config
 
-	// ‰º€”õ
+	// ä¸‹æº–å‚™
 	def setup() {
 		new File(TEST_FILE).createNewFile()
 		new File(TEST_DIR).mkdir()
 	}
 
-	// Œã•Ğ•t‚¯
+	// å¾Œç‰‡ä»˜ã‘
 	def cleanup() {
 		new File('.').listFiles().findAll {it.name ==~ /.*HtmlSuiteRunnerSpock-test.html/}.each {
 			if (it.exists()) {
@@ -30,7 +30,7 @@ class HtmlSuiteRunnerSpock extends Specification {
 		new File(TEST_DIR).deleteDir()
 	}
 
-	def 'loadText baseUrlw’è‚È‚µ'() {
+	def 'loadText baseUrlæŒ‡å®šãªã—'() {
 		when:
 		config = HtmlSuiteRunnerConfiguration.loadText("""<?xml version="1.0" encoding="UTF-8"?>
 			<suites-config>
@@ -44,7 +44,7 @@ class HtmlSuiteRunnerSpock extends Specification {
 		thrown(IllegalArgumentException)
 	}
 
-	def 'loadText suites‚È‚µ'() {
+	def 'loadText suitesãªã—'() {
 		when:
 		config = HtmlSuiteRunnerConfiguration.loadText("""<?xml version="1.0" encoding="UTF-8"?>
 			<suites-config>
@@ -56,7 +56,7 @@ class HtmlSuiteRunnerSpock extends Specification {
 		thrown(IllegalArgumentException)
 	}
 
-	def 'loadText suites‹ó'() {
+	def 'loadText suitesãŒç©º'() {
 		when:
 		config = HtmlSuiteRunnerConfiguration.loadText("""<?xml version="1.0" encoding="UTF-8"?>
 			<suites-config>
@@ -69,13 +69,13 @@ class HtmlSuiteRunnerSpock extends Specification {
 		thrown(IllegalArgumentException)
 	}
 
-	def 'loadText suiteFile‚ª‘¶İ‚µ‚È‚¢'() {
+	def 'loadText suiteFileãŒå­˜åœ¨ã—ãªã„'() {
 		when:
 		config = HtmlSuiteRunnerConfiguration.loadText("""<?xml version="1.0" encoding="UTF-8"?>
 			<suites-config>
 				<baseUrl>http://www.google.co.jp</baseUrl>
 				<suites>
-					<suite>‘¶İ‚µ‚È‚¢‚ñ‚¾‚æ</suite>
+					<suite>å­˜åœ¨ã—ãªã„ã‚“ã ã‚ˆ</suite>
 				</suites>
 			</suites-config>
 		""")
@@ -84,13 +84,13 @@ class HtmlSuiteRunnerSpock extends Specification {
 		thrown(FileNotFoundException)
 	}
 
-	def 'loadText Å¬ŒÀ‚Ì’è‹`'() {
+	def 'loadText æœ€å°é™ã®å®šç¾©'() {
 		when:
 		config = HtmlSuiteRunnerConfiguration.loadText("""<?xml version="1.0" encoding="UTF-8"?>
 			<suites-config>
 				<baseUrl>http://www.google.co.jp</baseUrl>
 				<suites>
-					<suite>${TEST_FILE}</suite><!-- ’¼Úw’è‚Å‚«‚é -->
+					<suite>${TEST_FILE}</suite><!-- ç›´æ¥æŒ‡å®šã§ãã‚‹ -->
 				</suites>
 			</suites-config>
 		""")
@@ -112,7 +112,7 @@ class HtmlSuiteRunnerSpock extends Specification {
 		}
 	}
 
-	def 'loadText ‹¤’Êİ’è‚ğ‚·‚×‚Äw’è'() {
+	def 'loadText å…±é€šè¨­å®šã‚’ã™ã¹ã¦æŒ‡å®š'() {
 		when:
 		config = HtmlSuiteRunnerConfiguration.loadText("""<?xml version="1.0" encoding="UTF-8"?>
 			<suites-config>
@@ -123,7 +123,7 @@ class HtmlSuiteRunnerSpock extends Specification {
 				<resultDir>${TEST_DIR}</resultDir>
 				<multiWindow>true</multiWindow>
 				<suites>
-					<suite suiteFile="${TEST_FILE}" /><!-- ‘®«‚Åw’è‚Å‚«‚é -->
+					<suite suiteFile="${TEST_FILE}" /><!-- å±æ€§ã§æŒ‡å®šã§ãã‚‹ -->
 				</suites>
 			</suites-config>
 		""")
@@ -146,22 +146,22 @@ class HtmlSuiteRunnerSpock extends Specification {
 		}
 	}
 
-	def 'loadText suite‚Ìİ’è‚ğ‚·‚×‚Äw’è'() {
+	def 'loadText suiteã®è¨­å®šã‚’ã™ã¹ã¦æŒ‡å®š'() {
 		when:
 		config = HtmlSuiteRunnerConfiguration.loadText("""<?xml version="1.0" encoding="UTF-8"?>
 			<suites-config>
 				<baseUrl>http://www.google.co.jp</baseUrl>
 				<suites>
-					<!-- —v‘f‚Åw’è -->
+					<!-- è¦ç´ ã§æŒ‡å®š -->
 					<suite>
 						<suiteFile>${TEST_FILE}</suiteFile>
-						<resultFile>${TEST_DIR}/xxx-${TEST_FILE}</resultFile><!-- ã‘‚« -->
-						<browsers>*googlechrome</browsers><!-- ã‘‚« -->
-						<baseUrl>http://www.google.co.uk</baseUrl><!-- ã‘‚« -->
-						<timeoutInSeconds>0</timeoutInSeconds><!-- ã‘‚« -->
-						<multiWindow>true</multiWindow><!-- ã‘‚« -->
+						<resultFile>${TEST_DIR}/xxx-${TEST_FILE}</resultFile><!-- ä¸Šæ›¸ã -->
+						<browsers>*googlechrome</browsers><!-- ä¸Šæ›¸ã -->
+						<baseUrl>http://www.google.co.uk</baseUrl><!-- ä¸Šæ›¸ã -->
+						<timeoutInSeconds>0</timeoutInSeconds><!-- ä¸Šæ›¸ã -->
+						<multiWindow>true</multiWindow><!-- ä¸Šæ›¸ã -->
 					</suite>
-					<!-- ‘®«‚Åw’è -->
+					<!-- å±æ€§ã§æŒ‡å®š -->
 					<suite	suiteFile = "${TEST_FILE}"
 							resultFile = "${TEST_DIR}/xxx-${TEST_FILE}"
 							browsers = "*googlechrome"

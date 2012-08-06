@@ -5,7 +5,7 @@ import groovy.util.slurpersupport.GPathResult
 import org.openqa.selenium.server.RemoteControlConfiguration
 
 /**
- * HTMLSuiteRunnerÀs—p‚Ìİ’è‚Å‚·B
+ * HTMLSuiteRunnerå®Ÿè¡Œç”¨ã®è¨­å®šã§ã™ã€‚
  * @author hidetoshi.mochizuki
  */
 class HtmlSuiteRunnerConfiguration extends RemoteControlConfiguration {
@@ -20,7 +20,7 @@ class HtmlSuiteRunnerConfiguration extends RemoteControlConfiguration {
 	List<HtmlSuite> suites = []
 
 	/**
-	 * baseUrl‚Ì•K{ƒ`ƒFƒbƒNŒã‚É’l‚ğƒZƒbƒg‚·‚éB
+	 * baseUrlã®å¿…é ˆãƒã‚§ãƒƒã‚¯å¾Œã«å€¤ã‚’ã‚»ãƒƒãƒˆã™ã‚‹ã€‚
 	 * @param url baseUrl
 	 */
 	void setBaseUrl(String url) {
@@ -31,8 +31,8 @@ class HtmlSuiteRunnerConfiguration extends RemoteControlConfiguration {
 	}
 
 	/**
-	 * resultDir‚Ì•K{ƒ`ƒFƒbƒNŒã‚É’l‚ğƒZƒbƒg‚·‚éB<p>
-	 * ƒtƒHƒ‹ƒ_‚ª‘¶İ‚µ‚È‚¢ê‡‚Íì¬‚·‚éB
+	 * resultDirã®å¿…é ˆãƒã‚§ãƒƒã‚¯å¾Œã«å€¤ã‚’ã‚»ãƒƒãƒˆã™ã‚‹ã€‚<p>
+	 * ãƒ•ã‚©ãƒ«ãƒ€ãŒå­˜åœ¨ã—ãªã„å ´åˆã¯ä½œæˆã™ã‚‹ã€‚
 	 * @param path resultDir
 	 */
 	void setResultDir(String path) {
@@ -50,8 +50,24 @@ class HtmlSuiteRunnerConfiguration extends RemoteControlConfiguration {
 	}
 
 	/**
-	 * HtmlSuiteRunner‚Ìİ’èƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚İ‚Ü‚·B
-	 * @param xml İ’èƒtƒ@ƒCƒ‹
+	 * ãƒ†ã‚¹ãƒˆã‚¹ã‚¤ãƒ¼ãƒˆã®ä»¶æ•°ã‚’è¿”ã—ã¾ã™ã€‚
+	 * @return ãƒ†ã‚¹ãƒˆã‚¹ã‚¤ãƒ¼ãƒˆã®ä»¶æ•°
+	 */
+	int getSuitesCnt() {
+		return suites.size()
+	}
+
+	/**
+	 * å¤±æ•—ã—ãŸãƒ†ã‚¹ãƒˆã‚¹ã‚¤ãƒ¼ãƒˆã®ä»¶æ•°ã‚’è¿”ã—ã¾ã™ã€‚
+	 * @return å¤±æ•—ã—ãŸãƒ†ã‚¹ãƒˆã‚¹ã‚¤ãƒ¼ãƒˆã®ä»¶æ•°
+	 */
+	int getFailedCnt() {
+		return suites.findAll{!it.passed && it.suiteResult}.size()
+	}
+
+	/**
+	 * HtmlSuiteRunnerã®è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã¿è¾¼ã¿ã¾ã™ã€‚
+	 * @param xml è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«
 	 * @return {@link HtmlSuiteRunnerConfiguration}
 	 */
 	static HtmlSuiteRunnerConfiguration loadFile(File xml) {
@@ -62,8 +78,8 @@ class HtmlSuiteRunnerConfiguration extends RemoteControlConfiguration {
 	}
 
 	/**
-	 * HtmlSuiteRunner‚Ìİ’èƒtƒ@ƒCƒ‹ƒpƒX‚ğ“Ç‚İ‚İ‚Ü‚·B
-	 * @param xmlPath İ’èƒtƒ@ƒCƒ‹ƒpƒX
+	 * HtmlSuiteRunnerã®è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹ã‚’èª­ã¿è¾¼ã¿ã¾ã™ã€‚
+	 * @param xmlPath è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹
 	 * @return {@link HtmlSuiteRunnerConfiguration}
 	 */
 	static HtmlSuiteRunnerConfiguration load(String xmlPath) {
@@ -74,8 +90,8 @@ class HtmlSuiteRunnerConfiguration extends RemoteControlConfiguration {
 	}
 
 	/**
-	 * HtmlSuiteRunner‚ÌXML•¶š—ñ‚ğ“Ç‚İ‚İ‚Ü‚·B
-	 * @param xml İ’èXML
+	 * HtmlSuiteRunnerã®XMLæ–‡å­—åˆ—ã‚’èª­ã¿è¾¼ã¿ã¾ã™ã€‚
+	 * @param xml è¨­å®šXML
 	 * @return {@link HtmlSuiteRunnerConfiguration}
 	 */
 	static HtmlSuiteRunnerConfiguration loadText(String xml) {
@@ -83,13 +99,13 @@ class HtmlSuiteRunnerConfiguration extends RemoteControlConfiguration {
 	}
 
 	/**
-	 * HtmlSuiteRunnerİ’è“à—e‚©‚çƒ‚ƒfƒ‹‚ğ¶¬‚µ‚Ü‚·B
-	 * @param xml İ’è
+	 * HtmlSuiteRunnerè¨­å®šå†…å®¹ã‹ã‚‰ãƒ¢ãƒ‡ãƒ«ã‚’ç”Ÿæˆã—ã¾ã™ã€‚
+	 * @param xml è¨­å®šXMLå‚ç…§
 	 * @return {@link HtmlSuiteRunnerConfiguration}
 	 */
 	protected static HtmlSuiteRunnerConfiguration parse(GPathResult xml) {
 		def conf = new HtmlSuiteRunnerConfiguration()
-		// ‹¤’Êİ’è
+		// å…±é€šè¨­å®š
 		conf.port = xml.port?.text() ? xml.port.text() as Integer : conf.port
 		conf.browsers = xml.browsers?.text() ?: conf.browsers
 		conf.baseUrl = xml.baseUrl?.text()
@@ -97,18 +113,18 @@ class HtmlSuiteRunnerConfiguration extends RemoteControlConfiguration {
 		conf.resultDir = xml.resultDir?.text() ?: conf.resultDir
 		conf.multiWindow = ('true' == xml.multiWindow?.text())
 
-		// HTMLSuiteİ’è
+		// HTMLSuiteè¨­å®š
 		def count = 0
 		xml.suites.suite.each  { suite ->
 
-			// ‘®« > —v‘f > ‹¤’Êİ’è ‚Ì‡‚É—Dæ
+			// å±æ€§ > è¦ç´  > å…±é€šè¨­å®š ã®é †ã«å„ªå…ˆ
 			String baseUrl = suite.@baseUrl.text() ?: suite.baseUrl?.text() ?: conf.baseUrl
 			String suiteFile = suite.@suiteFile.text() ?: suite.suiteFile?.text() ?: suite.text()
 			String resultFile = suite.@resultFile.text() ?: suite.resultFile?.text() ?: conf.resultDir
 			long timeoutInSeconds = toLong(conf.timeoutInSeconds, suite.@timeoutInSeconds.text(), suite.timeoutInSeconds?.text())
 			boolean multiWindow = toBool(conf.multiWindow, suite.@multiWindow.text(), suite.multiWindow?.text())
 
-			// ƒuƒ‰ƒEƒU•Ê‚ÉƒXƒC[ƒgƒ‚ƒfƒ‹‚ğì¬
+			// ãƒ–ãƒ©ã‚¦ã‚¶åˆ¥ã«ã‚¹ã‚¤ãƒ¼ãƒˆãƒ¢ãƒ‡ãƒ«ã‚’ä½œæˆ
 			String browsers = suite.@browsers.text() ?: suite.browsers?.text() ?: conf.browsers
 			browsers.split(',').collect{it.trim()}.findAll {!it.isEmpty()}.each { browser ->
 				conf.suites << new HtmlSuite(
@@ -130,10 +146,10 @@ class HtmlSuiteRunnerConfiguration extends RemoteControlConfiguration {
 	}
 
 	/**
-	 * •¶š—ñ‚ªİ’è‚³‚ê‚Ä‚¢‚ê‚Î long ‚É‚µ‚Ä•Ô‚·B
-	 * @param defVal ‰Šú’l
-	 * @param args •ÏŠ·‘ÎÛ‚Ì”z—ñ(—Dæ“x‡)
-	 * @return long ‚É•ÏŠ·‚³‚ê‚½•¶š—ñ
+	 * æ–‡å­—åˆ—ãŒè¨­å®šã•ã‚Œã¦ã„ã‚Œã° long ã«ã—ã¦è¿”ã™ã€‚
+	 * @param defVal åˆæœŸå€¤
+	 * @param args å¤‰æ›å¯¾è±¡ã®é…åˆ—(å„ªå…ˆåº¦é †)
+	 * @return long ã«å¤‰æ›ã•ã‚ŒãŸæ–‡å­—åˆ—
 	 */
 	static long toLong(long defVal, Object... args) {
 		def result = defVal
@@ -145,6 +161,12 @@ class HtmlSuiteRunnerConfiguration extends RemoteControlConfiguration {
 		return result
 	}
 
+	/**
+	 * æ–‡å­—åˆ—ãŒè¨­å®šã•ã‚Œã¦ã„ã‚Œã° boolean ã«ã—ã¦è¿”ã™ã€‚
+	 * @param defVal åˆæœŸå€¤
+	 * @param args å¤‰æ›å¯¾è±¡ã®é…åˆ—(å„ªå…ˆåº¦é †)
+	 * @return boolean ã«å¤‰æ›ã•ã‚ŒãŸæ–‡å­—åˆ—
+	 */
 	static boolean toBool(boolean defVal, Object... args) {
 		def result = defVal
 		args.each {
@@ -153,6 +175,5 @@ class HtmlSuiteRunnerConfiguration extends RemoteControlConfiguration {
 			}
 		}
 		return result
-
 	}
 }
