@@ -35,7 +35,7 @@ class HtmlSuiteLauncherSpock extends Specification {
 		setup:
 		def result = false
 		def htmlSuiteLauncher = new HtmlSuiteLauncher(
-			HtmlSuiteRunnerConfiguration.loadText("""<?xml version="1.0" encoding="UTF-8"?>
+				HtmlSuiteRunnerConfiguration.loadText("""<?xml version="1.0" encoding="UTF-8"?>
 			<suites-config>
 				<baseUrl>http://www.google.co.jp</baseUrl>
 				<browsers>*firefox, *firefox</browsers>
@@ -52,17 +52,32 @@ class HtmlSuiteLauncherSpock extends Specification {
 		result == true
 	}
 
-	def 'ファイルを指定してテストスイート実行'() {
+	def 'ファイルを指定してテストスイート実行_setup指定'() {
 		setup:
 		def result = false
 		def htmlSuiteLauncher = new HtmlSuiteLauncher(
-			HtmlSuiteRunnerConfiguration.load('src/test/resources/sample.xml'))
-			
+				HtmlSuiteRunnerConfiguration.load('src/test/resources/sample.xml'))
+		htmlSuiteLauncher.setup { println "${it.suiteFile.name}を実行します。"  }
+
 		when:
 		result = htmlSuiteLauncher.doTest()
 
 		then:
 		result == true
+	}
+
+	def 'ファイルを指定してテストスイート実行_setupで例外'() {
+		setup:
+		def result = false
+		def htmlSuiteLauncher = new HtmlSuiteLauncher(
+				HtmlSuiteRunnerConfiguration.load('src/test/resources/sample.xml'))
+		htmlSuiteLauncher.setup { throw new UnsupportedOperationException() }
+
+		when:
+		result = htmlSuiteLauncher.doTest()
+
+		then:
+		thrown(UnsupportedOperationException)
 	}
 
 	// テストスイートテンプレート

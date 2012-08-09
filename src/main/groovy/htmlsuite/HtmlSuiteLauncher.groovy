@@ -72,6 +72,7 @@ class HtmlSuiteLauncher extends HTMLLauncher {
 			}
 		} catch (Exception e) {
 			logger.log(Level.WARNING, "Server exception : ", e);
+			throw e
 		} finally {
 			remoteControl.stop()
 		}
