@@ -5,13 +5,13 @@ import org.openqa.selenium.server.RemoteControlConfiguration
 import spock.lang.Specification
 
 /**
- * HtmlSuiteRunnerのテスト
+ * HtmlSuiteRunnerConfigurationのテスト
  * @author hidetoshi.mochizuki
  */
-class HtmlSuiteRunnerSpock extends Specification {
+class HtmlSuiteRunnerConfigurationSpock extends Specification {
 
-	static String TEST_FILE = 'HtmlSuiteRunnerSpock-test.html'
-	static String TEST_DIR = 'HtmlSuiteRunnerSpock-test'
+	static String TEST_FILE = 'HtmlSuiteRunnerConfigurationSpock-test.html'
+	static String TEST_DIR = 'HtmlSuiteRunnerConfigurationSpock-test'
 	def config
 
 	// 下準備
@@ -22,7 +22,7 @@ class HtmlSuiteRunnerSpock extends Specification {
 
 	// 後片付け
 	def cleanup() {
-		new File('.').listFiles().findAll {it.name ==~ /.*HtmlSuiteRunnerSpock-test.html/}.each {
+		new File('.').listFiles().findAll {it.name ==~ /.*HtmlSuiteRunnerConfigurationSpock-test.html/}.each {
 			if (it.exists()) {
 				it.delete()
 			}
@@ -101,14 +101,14 @@ class HtmlSuiteRunnerSpock extends Specification {
 		config.port == RemoteControlConfiguration.DEFAULT_PORT
 		config.timeoutInSeconds == RemoteControlConfiguration.DEFAULT_TIMEOUT_IN_SECONDS
 		config.resultDir == HtmlSuiteRunnerConfiguration.DEFAULT_RESULT_DIR
-		config.multiWindow == false
+		config.singleWindow == false
 		config.suites.each {
 			assert it.browser == HtmlSuiteRunnerConfiguration.DEFAULT_BROWSERS
 			assert it.baseUrl == 'http://www.google.co.jp'
 			assert it.suiteFile.name == TEST_FILE
 			assert it.resultFile.name == 'result-' + TEST_FILE
 			assert it.timeoutInSeconds == RemoteControlConfiguration.DEFAULT_TIMEOUT_IN_SECONDS
-			assert it.multiWindow == false
+			assert it.singleWindow == false
 		}
 	}
 
@@ -121,7 +121,7 @@ class HtmlSuiteRunnerSpock extends Specification {
 				<port>8080</port>
 				<timeoutInSeconds>30</timeoutInSeconds>
 				<resultDir>${TEST_DIR}</resultDir>
-				<multiWindow>true</multiWindow>
+				<singleWindow>true</singleWindow>
 				<suites>
 					<suite suiteFile="${TEST_FILE}" /><!-- 属性で指定できる -->
 				</suites>
@@ -134,7 +134,7 @@ class HtmlSuiteRunnerSpock extends Specification {
 		config.port == 8080
 		config.timeoutInSeconds == 30
 		config.resultDir == TEST_DIR
-		config.multiWindow == true
+		config.singleWindow == true
 		config.suites.size() == 2
 		config.suites.each {
 			assert it.browser =~ /^(\*firefox)|(\*googlechrome)$/
@@ -142,7 +142,7 @@ class HtmlSuiteRunnerSpock extends Specification {
 			assert it.suiteFile.name == TEST_FILE
 			assert it.resultFile.name == 'result-' + TEST_FILE
 			assert it.timeoutInSeconds == 30
-			assert it.multiWindow == true
+			assert it.singleWindow == true
 		}
 	}
 
@@ -159,7 +159,7 @@ class HtmlSuiteRunnerSpock extends Specification {
 						<browsers>*googlechrome</browsers><!-- 上書き -->
 						<baseUrl>http://www.google.co.uk</baseUrl><!-- 上書き -->
 						<timeoutInSeconds>0</timeoutInSeconds><!-- 上書き -->
-						<multiWindow>true</multiWindow><!-- 上書き -->
+						<singleWindow>true</singleWindow><!-- 上書き -->
 					</suite>
 					<!-- 属性で指定 -->
 					<suite	suiteFile = "${TEST_FILE}"
@@ -167,7 +167,7 @@ class HtmlSuiteRunnerSpock extends Specification {
 							browsers = "*googlechrome"
 							baseUrl = "http://www.google.co.uk"
 							timeoutInSeconds = "0"
-							multiWindow = "true"
+							singleWindow = "true"
 					/>
 				</suites>
 			</suites-config>
@@ -179,7 +179,7 @@ class HtmlSuiteRunnerSpock extends Specification {
 		config.port == RemoteControlConfiguration.DEFAULT_PORT
 		config.timeoutInSeconds == RemoteControlConfiguration.DEFAULT_TIMEOUT_IN_SECONDS
 		config.resultDir == HtmlSuiteRunnerConfiguration.DEFAULT_RESULT_DIR
-		config.multiWindow == false
+		config.singleWindow == false
 		config.suites.size() == 2
 		config.suites.each {
 			assert it.browser == '*googlechrome'
@@ -187,7 +187,7 @@ class HtmlSuiteRunnerSpock extends Specification {
 			assert it.resultFile.name == 'xxx-' + TEST_FILE
 			assert it.baseUrl == 'http://www.google.co.uk'
 			assert it.timeoutInSeconds == 0
-			assert it.multiWindow == true
+			assert it.singleWindow == true
 		}
 	}
 

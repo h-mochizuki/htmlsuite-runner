@@ -1,25 +1,25 @@
 htmlsuite-runner
 ======================
-SeleniumServer‚Å•¡”‚ÌHTMLƒeƒXƒgƒXƒC[ƒg‚ğÀs‚·‚é‚½‚ß‚ÌŠg’£ƒAƒvƒŠ‚Å‚·B
+SeleniumServerã§è¤‡æ•°ã®HTMLãƒ†ã‚¹ãƒˆã‚¹ã‚¤ãƒ¼ãƒˆã‚’å®Ÿè¡Œã™ã‚‹ãŸã‚ã®æ‹¡å¼µã‚¢ãƒ—ãƒªã§ã™ã€‚
  
-g‚¢•û
+ä½¿ã„æ–¹
 ------
-### Às•û–@ ###
-ƒRƒ}ƒ“ƒhƒ‰ƒCƒ“‚©‚çŸ‚ğÀs‚µ‚Ä‚­‚¾‚³‚¢B
+### å®Ÿè¡Œæ–¹æ³• ###
+ã‚³ãƒãƒ³ãƒ‰ãƒ©ã‚¤ãƒ³ã‹ã‚‰æ¬¡ã‚’å®Ÿè¡Œã—ã¦ãã ã•ã„ã€‚
 
-	./gradlew run -Pargs='[XMLƒpƒX]'
+	./gradlew run -Pargs='[XMLãƒ‘ã‚¹]'
 
-### İ’èXML\‘¢ ###
+### è¨­å®šXMLæ§‹é€  ###
 	<?xml version="1.0" encoding="UTF-8"?>
 	<suites-config>
-		<browsers>*firefox</browsers><!-- g—pƒuƒ‰ƒEƒU(”CˆÓBƒfƒtƒHƒ‹ƒg‚Íu*firefoxv) -->
-		<baseUrl>http://www.google.co.jp</baseUrl><!-- ƒuƒ‰ƒEƒU‹N“®‚ÌURL(•K{) -->
-		<port>4444</port><!-- SeleniumƒT[ƒo‚Ìƒ|[ƒg”Ô†(”CˆÓBƒfƒtƒHƒ‹ƒg‚Íu4444v) -->
-		<timeoutInSeconds>60000</timeoutInSeconds><!-- ƒ^ƒCƒ€ƒAƒEƒg•b”(”CˆÓBƒfƒtƒHƒ‹ƒg‚Í1800•b) -->
-		<resultDir>.</resultDir><!-- ƒeƒXƒgŒ‹‰Êo—ÍƒtƒHƒ‹ƒ_(”CˆÓBƒfƒtƒHƒ‹ƒg‚ÍƒJƒŒƒ“ƒgƒfƒBƒŒƒNƒgƒŠ) -->
-		<multiWindow>false</multiWindow><!-- Às‚ÌƒEƒBƒ“ƒhƒE•ªŠ„(”CˆÓBƒfƒtƒHƒ‹ƒg‚Íufalsev) -->
+		<browsers>*firefox</browsers><!-- ä½¿ç”¨ãƒ–ãƒ©ã‚¦ã‚¶(ä»»æ„ã€‚ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã¯ã€Œ*firefoxã€) -->
+		<baseUrl>http://www.google.co.jp</baseUrl><!-- ãƒ–ãƒ©ã‚¦ã‚¶èµ·å‹•æ™‚ã®URL(å¿…é ˆ) -->
+		<port>4444</port><!-- Seleniumã‚µãƒ¼ãƒã®ãƒãƒ¼ãƒˆç•ªå·(ä»»æ„ã€‚ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã¯ã€Œ4444ã€) -->
+		<timeoutInSeconds>60000</timeoutInSeconds><!-- ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆç§’æ•°(ä»»æ„ã€‚ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã¯1800ç§’) -->
+		<resultDir>.</resultDir><!-- ãƒ†ã‚¹ãƒˆçµæœå‡ºåŠ›ãƒ•ã‚©ãƒ«ãƒ€(ä»»æ„ã€‚ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã¯ã‚«ãƒ¬ãƒ³ãƒˆãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª) -->
+		<singleWindow>false</singleWindow><!-- å®Ÿè¡Œæ™‚ã«ç®¡ç†ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã¨ä¸€ä½“åŒ–ã™ã‚‹ã‹(ä»»æ„ã€‚ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã¯ã€Œfalseã€) -->
 		<suites>
-			<suite>test-suite1.html</suite><!-- ƒeƒXƒgƒXƒC[ƒg‚Ìƒtƒ@ƒCƒ‹ƒpƒX(•K{) -->
+			<suite>test-suite1.html</suite><!-- ãƒ†ã‚¹ãƒˆã‚¹ã‚¤ãƒ¼ãƒˆã®ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹(å¿…é ˆ) -->
 			<suite>test-suite2.html</suite>
 		</suites>
 	</suites-config>

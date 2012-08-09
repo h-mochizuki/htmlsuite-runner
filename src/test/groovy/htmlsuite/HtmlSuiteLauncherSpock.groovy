@@ -34,9 +34,8 @@ class HtmlSuiteLauncherSpock extends Specification {
 	def 'テキストを指定してテストスイート実行'() {
 		setup:
 		def result = false
-
-		when:
-		result = HtmlSuiteLauncher.runSuites(HtmlSuiteRunnerConfiguration.loadText("""<?xml version="1.0" encoding="UTF-8"?>
+		def htmlSuiteLauncher = new HtmlSuiteLauncher(
+			HtmlSuiteRunnerConfiguration.loadText("""<?xml version="1.0" encoding="UTF-8"?>
 			<suites-config>
 				<baseUrl>http://www.google.co.jp</baseUrl>
 				<browsers>*firefox, *firefox</browsers>
@@ -46,6 +45,9 @@ class HtmlSuiteLauncherSpock extends Specification {
 			</suites-config>
 """))
 
+		when:
+		result = htmlSuiteLauncher.doTest()
+
 		then:
 		result == true
 	}
@@ -53,9 +55,11 @@ class HtmlSuiteLauncherSpock extends Specification {
 	def 'ファイルを指定してテストスイート実行'() {
 		setup:
 		def result = false
-
+		def htmlSuiteLauncher = new HtmlSuiteLauncher(
+			HtmlSuiteRunnerConfiguration.load('src/test/resources/sample.xml'))
+			
 		when:
-		result = HtmlSuiteLauncher.runSuites(HtmlSuiteRunnerConfiguration.load('src/test/resources/sample.xml'))
+		result = htmlSuiteLauncher.doTest()
 
 		then:
 		result == true
@@ -94,8 +98,6 @@ class HtmlSuiteLauncherSpock extends Specification {
 						<tr><td>open</td><td>/webhp?hl=ja</td><td></td></tr>
 						<tr><td>type</td><td>id=gbqfq</td><td>google</td></tr>
 						<tr><td>click</td><td>id=gbqfb</td><td></td></tr>
-						<tr><td>pause</td><td>3000</td><td></td></tr>
-						<tr><td>clickAndWait</td><td>css=em</td><td></td></tr>
 					</tbody>
 				</table>
 			</body>

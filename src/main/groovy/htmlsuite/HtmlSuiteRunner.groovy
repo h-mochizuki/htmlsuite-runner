@@ -15,7 +15,7 @@ class HtmlSuiteRunner {
 		try {
 			String xmlPath = args.size() > 0 ? args[0] : null
 			def conf = HtmlSuiteRunnerConfiguration.load(xmlPath)
-			result = HtmlSuiteLauncher.runSuites(conf)
+			result = new HtmlSuiteLauncher(conf).doTest()
 		} catch (Exception e) {
 			if (e instanceof IllegalArgumentException) {
 				println 'Please enter the filePath argument.'

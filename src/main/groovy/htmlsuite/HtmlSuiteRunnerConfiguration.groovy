@@ -15,7 +15,7 @@ class HtmlSuiteRunnerConfiguration extends RemoteControlConfiguration {
 
 	String browsers = DEFAULT_BROWSERS
 	String baseUrl
-	boolean multiWindow = false
+	boolean singleWindow = false
 	String resultDir = DEFAULT_RESULT_DIR
 	List<HtmlSuite> suites = []
 
@@ -111,7 +111,7 @@ class HtmlSuiteRunnerConfiguration extends RemoteControlConfiguration {
 		conf.baseUrl = xml.baseUrl?.text()
 		conf.timeoutInSeconds = toLong(conf.timeoutInSeconds, xml.timeoutInSeconds?.text())
 		conf.resultDir = xml.resultDir?.text() ?: conf.resultDir
-		conf.multiWindow = ('true' == xml.multiWindow?.text())
+		conf.singleWindow = ('true' == xml.singleWindow?.text())
 
 		// HTMLSuite設定
 		def count = 0
@@ -122,7 +122,7 @@ class HtmlSuiteRunnerConfiguration extends RemoteControlConfiguration {
 			String suiteFile = suite.@suiteFile.text() ?: suite.suiteFile?.text() ?: suite.text()
 			String resultFile = suite.@resultFile.text() ?: suite.resultFile?.text() ?: conf.resultDir
 			long timeoutInSeconds = toLong(conf.timeoutInSeconds, suite.@timeoutInSeconds.text(), suite.timeoutInSeconds?.text())
-			boolean multiWindow = toBool(conf.multiWindow, suite.@multiWindow.text(), suite.multiWindow?.text())
+			boolean singleWindow = toBool(conf.singleWindow, suite.@singleWindow.text(), suite.singleWindow?.text())
 
 			// ブラウザ別にスイートモデルを作成
 			String browsers = suite.@browsers.text() ?: suite.browsers?.text() ?: conf.browsers
@@ -133,7 +133,7 @@ class HtmlSuiteRunnerConfiguration extends RemoteControlConfiguration {
 					suiteFile: new File(suiteFile),
 					resultFile: new File(resultFile),
 					timeoutInSeconds: timeoutInSeconds,
-					multiWindow: multiWindow,
+					singleWindow: singleWindow,
 					)
 			}
 		}

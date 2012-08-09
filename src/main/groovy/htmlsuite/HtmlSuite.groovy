@@ -17,7 +17,7 @@ class HtmlSuite {
 	File suiteFile
 	File resultFile
 	long timeoutInSeconds
-	boolean multiWindow = false
+	boolean singleWindow
 	HTMLTestResults suiteResult
 	boolean passed = false
 
