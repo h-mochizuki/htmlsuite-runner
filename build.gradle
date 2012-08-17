@@ -10,7 +10,8 @@ def enc = 'UTF-8'
 [compileGroovy, compileTestGroovy].each{it.groovyOptions.encoding = enc}
 
 // -- application main class
-mainClassName = 'htmlsuite.HtmlSuiteRunner'
+//mainClassName = 'htmlsuite.HtmlSuiteRunner'
+mainClassName = 'ci.selenium.suites.html.TestRunner'
 run {
 	if (project.hasProperty('args')) {
 		args project.args
@@ -42,16 +43,3 @@ eclipse {
 task wrapper(type: Wrapper) {
 	gradleVersion = '1.0-rc-3'
 }
-
-// -- task to stop selenium-server
-task stopServer() << {
-	println 'waiting selenium-server shutdown...'
-	def url = 'http://localhost:4444/selenium-server/driver/?cmd=shutDownSeleniumServer'
-	try {
-		println new URL(url).getText()
-	} catch (ConnectException e) {
-		// selenium-server was down.
-	}
-	println 'selenium-server is down.'
-}
-run.dependsOn stopServer

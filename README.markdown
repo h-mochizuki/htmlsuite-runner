@@ -7,30 +7,34 @@ SeleniumServerで複数のHTMLテストスイートを実行するための拡�
 ### 実行方法 ###
 コマンドラインから次を実行してください。
 
-	./gradlew run -Pargs='[XMLパス]'
+	./gradlew run -Pargs='[DSLファイルパス]'
 
-### 設定XML構造 ###
-	<?xml version="1.0" encoding="UTF-8"?>
-	<suites-config>
-		<browsers>*firefox</browsers><!-- 使用ブラウザ(任意。デフォルトは「*firefox」) -->
-		<baseUrl>http://www.google.co.jp</baseUrl><!-- ブラウザ起動時のURL(必須) -->
-		<port>4444</port><!-- Seleniumサーバのポート番号(任意。デフォルトは「4444」) -->
-		<timeoutInSeconds>60000</timeoutInSeconds><!-- タイムアウト秒数(任意。デフォルトは1800秒) -->
-		<resultDir>.</resultDir><!-- テスト結果出力フォルダ(任意。デフォルトはカレントディレクトリ) -->
-		<singleWindow>false</singleWindow><!-- 実行時に管理ウィンドウと一体化するか(任意。デフォルトは「false」) -->
-		<suites>
-			<suite>test-suite1.html</suite><!-- テストスイートのファイルパス(必須) -->
-			<suite>test-suite2.html</suite>
-		</suites>
-	</suites-config>
+### 設定ファイル構造 ###
+	testsConfiguration {
+
+		// == 任意項目(デフォルト値があるため、設定しなくても動く) ==
+		// サーバポート番号
+		port 4444
+		// テストで使用するブラウザ
+		browser '*firefox'
+		// テスト実施時の初期URL
+		baseURL 'http://www.google.com'
+		// テストスイート1つの実施上限時間(超えると強制終了)
+		timeoutInSeconds 1800
+		// テスト結果格納先ディレクトリ
+		resultDir '.'
+		// 管理ウィンドウとテスト実行ウィンドウを一体化するかどうか(GoogleChromeでは無効？)
+		singleWindow false
+
+		// == 必須項目(指定しないとテストが動かない) ==
+		// テストスイートファイル
+		suite 'src/test/resources/sample-suite1.html'
+		suite 'src/test/resources/sample-suite2.html'
+	}
 
 ライセンス
 ----------
-Copyright &copy; 2011-2012
+Copyright &copy; 2012-2012
 Licensed under the [Apache License, Version 2.0][Apache]
-Distributed under the [MIT License][mit].
-Dual licensed under the [MIT license][MIT] and [GPL license][GPL].
  
 [Apache]: http://www.apache.org/licenses/LICENSE-2.0
-[MIT]: http://www.opensource.org/licenses/mit-license.php
-[GPL]: http://www.gnu.org/licenses/gpl.html
