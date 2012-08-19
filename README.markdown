@@ -25,11 +25,28 @@ SeleniumServerで複数のHTMLテストスイートを実行するための拡�
 		resultDir '.'
 		// 管理ウィンドウとテスト実行ウィンドウを一体化するかどうか(GoogleChromeでは無効？)
 		singleWindow false
+		// テスト実施前に行いたい処理(it として TestsConfiguration が渡される)
+		beforeTest {
+			println "start - ${new Date().format('yyyyMMddHHmmss')}"
+		}
+		// テスト実施後に行いたい処理(it として TestsConfiguration が渡される)
+		afterTest {
+			println "finish - ${new Date().format('yyyyMMddHHmmss')}"
+		}
 
 		// == 必須項目(指定しないとテストが動かない) ==
-		// テストスイートファイル
+		// テストスイートファイル(スイートファイルのパスのみ設定可能)
 		suite 'src/test/resources/sample-suite1.html'
-		suite 'src/test/resources/sample-suite2.html'
+
+		// テストスイート設定(スイートごとに設定が可能)
+		suite {
+			// ブラウザ
+			browser = '*googlechrome'
+			// テストスイートファイルパス
+			suiteFile 'src/test/resources/sample-suite2.html'
+			// 結果ファイルパス
+			resultFile './result-suite2.html'
+		}
 	}
 
 ライセンス

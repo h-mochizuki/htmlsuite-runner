@@ -45,16 +45,30 @@ class TestsConfiguration extends RemoteControlConfiguration {
 	String resultDir = DEFAULT_RESULT_DIR
 	/** テストスイート */
 	List<SuiteConfiguration> suites = []
+	/** テスト実行前の処理リスト */
+	private List<Closure> beforeTests = []
+	/** テスト実行後の処理リスト */
+	private List<Closure> afterTests = []
 
 	@AdditonalDSLRule
-	def suite(String suiteFile) {
+	void suite(String suiteFile) {
 		suites << new SuiteConfiguration(this, suiteFile)
 	}
 
 	@AdditonalDSLRule
-	def suite(Closure cl) {
+	void suite(Closure cl) {
 		SuiteConfiguration suite = new SuiteConfiguration(this)
 		suites << suite
 		suite.entrustedWith(cl)
+	}
+
+	@AdditonalDSLRule
+	void beforeTest(Closure cl) {
+		beforeTests << cl
+	}
+	
+	@AdditonalDSLRule
+	void afterTest(Closure cl) {
+		afterTests << cl
 	}
 }

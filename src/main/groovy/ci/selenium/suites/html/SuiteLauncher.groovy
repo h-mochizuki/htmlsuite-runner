@@ -36,11 +36,18 @@ class SuiteLauncher  extends HTMLLauncher {
 			// 既に起動している可能性があるため、 最初に停止を行う。
 			doStop()
 			remoteControl.start()
+			// テスト実施前処理
+			testsConfig.beforeTests.each { Closure cl -> cl.call(testsConfig) }
 			// テスト実施
 			testsConfig.suites.each { suite ->
 				passed &= doTest(suite)
 			}
 		} finally {
+			try {
+				// テスト実施後処理
+				testsConfig.afterTests.each { Closure cl -> cl.call(testsConfig) }
+			} finally {
+			}
 			// テストが終わったら停止する
 			doStop()
 		}
@@ -50,18 +57,22 @@ class SuiteLauncher  extends HTMLLauncher {
 	protected boolean doTest(SuiteConfiguration suite) {
 		// 初期設定
 		results = null
+		// スイート実行前処理
+		suite.setUps.each { Closure cl -> cl.call(suite) }
 
-		// テスト実行
+		// テストスイート実行
 		remoteControl.addNewStaticContent(suite.suiteFile.parentFile)
 		String suiteURL = TEST_URL_PATH + URLEncoder.encode(suite.suiteFile.name, 'UTF-8')
 		suite.setResult(runHTMLSuite(
-						suite.browser,
-						suite.baseURL,
-						suiteURL,
-						suite.resultFile,
-						suite.timeoutInSeconds,
-						!suite.singleWindow), getResults())
+				suite.browser,
+				suite.baseURL,
+				suiteURL,
+				suite.resultFile,
+				suite.timeoutInSeconds,
+				!suite.singleWindow), getResults())
 
+		// スイート実行後処理
+		suite.tearDowns.each { Closure cl -> cl.call(suite) }
 		return suite.passed
 	}
 

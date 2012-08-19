@@ -41,6 +41,11 @@ class SuiteConfiguration {
 	private String suiteFile
 	/** テスト結果ファイル */
 	private String resultFile
+	/** テストスイート実行前に実施する処理のリスト */
+	private List<Closure> setUps = []
+	/** テストスイート実行後に実施する処理のリスト */
+	private List<Closure> tearDowns = []
+
 	/** Seleniumテスト結果情報 */
 	private HTMLTestResults testResults
 	/** テストスイート成功フラグ */
@@ -106,6 +111,31 @@ class SuiteConfiguration {
 	@AdditonalDSLRule
 	void resultFile(String filePath) {
 		resultFile = filePath
+	}
+
+	@AdditonalDSLRule
+	void setUp(String scriptPath) {
+		setUps << {
+			new GroovyShell().evaluate(resultFile);
+		}
+	}
+
+	@AdditonalDSLRule
+	void setUp(Closure cl) {
+		setUps << cl
+	}
+
+	@AdditonalDSLRule
+	void tearDown(Closure cl) {
+		tearDown << cl
+	}
+
+	List<Closure> getSetUps() {
+		new ArrayList<Closure>(setUps)
+	}
+
+	List<Closure> getTearDowns() {
+		new ArrayList<Closure>(tearDowns)
 	}
 
 	private void validateSuiteFile() {
