@@ -9,6 +9,12 @@ SeleniumServerで複数のHTMLテストスイートを実行するための拡�
 
 	./gradlew run -Pargs='[DSLファイルパス]'
 
+また、Windowsの場合はバッチとして起動可能です。
+
+	./htmlsuite-runner '[DSLファイルパス]'
+
+DSLファイルパスを指定しない場合は「./sampleConfiguration.groovy」が読込まれます。
+
 ### 設定ファイル構造 ###
 	testsConfiguration {
 
@@ -25,11 +31,14 @@ SeleniumServerで複数のHTMLテストスイートを実行するための拡�
 		resultDir '.'
 		// 管理ウィンドウとテスト実行ウィンドウを一体化するかどうか(GoogleChromeでは無効？)
 		singleWindow false
-		// テスト実施前に行いたい処理(it として TestsConfiguration が渡される)
+		// テスト実施前に行いたい処理
+		// it として TestsConfiguration が渡される。
+		// 結果として false を返すと後続処理をスキップする。
 		beforeTest {
 			println "start - ${new Date().format('yyyyMMddHHmmss')}"
 		}
-		// テスト実施後に行いたい処理(it として TestsConfiguration が渡される)
+		// テスト実施後に行いたい処理
+		// it として TestsConfiguration が渡される。
 		afterTest {
 			println "finish - ${new Date().format('yyyyMMddHHmmss')}"
 		}
@@ -46,6 +55,17 @@ SeleniumServerで複数のHTMLテストスイートを実行するための拡�
 			suiteFile 'src/test/resources/sample-suite2.html'
 			// 結果ファイルパス
 			resultFile './result-suite2.html'
+			// テストスイート実施前に行いたい処理
+			// it として TestsConfiguration が渡される。
+			// 結果として false を返すとスイートの実施をスキップする。
+			setUp {
+				println "$it.suiteFile.name を実行します。"
+			}
+			// テストスイート実施後に行いたい処理
+			// it として TestsConfiguration が渡される。
+			setUp {
+				println "$it.suiteFile.name を実行しました。"
+			}
 		}
 	}
 

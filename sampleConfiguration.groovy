@@ -1,10 +1,8 @@
-import static org.openqa.selenium.Platform.WINDOWS;
-import ci.selenium.suites.html.model.TestsConfiguration;
-
 testsConfiguration {
 	browser '*googlechrome'
 	baseURL 'http://www.google.com'
 	beforeTest {
+		// ウィンドウズの場合は、ブラウザをFirefoxに変更する
 		if (org.openqa.selenium.Platform.getCurrent().is(org.openqa.selenium.Platform.WINDOWS)) {
 			it.browser = "*firefox"
 		}

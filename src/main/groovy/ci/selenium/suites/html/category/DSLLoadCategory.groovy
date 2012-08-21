@@ -15,6 +15,8 @@
  */
 package ci.selenium.suites.html.category
 
+import groovy.util.logging.Commons
+
 import java.lang.annotation.ElementType
 import java.lang.annotation.Retention
 import java.lang.annotation.RetentionPolicy
@@ -44,6 +46,7 @@ import org.codehaus.groovy.runtime.metaclass.MixinInstanceMetaProperty
  * 
  * @author hidetoshi.mochizuki
  */
+@Commons
 @Category(Object)
 class DSLLoadCategory {
 
@@ -62,6 +65,7 @@ class DSLLoadCategory {
 	 * @return モデルオブジェクト
 	 */
 	def loadDSL(String dslScript) {
+		log.info("設定DSLファイル内容を読込みます。\r\n$dslScript")
 		def self = this
 		Script script = new GroovyShell().parse(dslScript)
 		script.metaClass = createEMC(script.class) { ExpandoMetaClass emc ->
@@ -84,7 +88,7 @@ class DSLLoadCategory {
 	}
 
 	private static def delegator(def self) {
-		def delegate = new Object()
+		def delegate = new MissingAlertDelegator()
 		self.metaClass.properties.findAll{ isDelegatableProperty(it) }.each { prop ->
 			if (Collection.isAssignableFrom(prop.type)) {
 				delegate.metaClass."$prop.name" = { Object... args -> self."$prop.name" = args }
@@ -122,6 +126,24 @@ class DSLLoadCategory {
 	private static String instanceName(Class<?> clazz) {
 		def name = clazz.simpleName
 		return name.substring(0, 1).toLowerCase() + name.substring(1)
+	}
+}
+
+/**
+ * 項目の読込みに失敗した場合にエラーメッセージを表示させます。
+ * @author hidetoshi.mochizuki
+ *
+ */
+@Commons
+private class MissingAlertDelegator {
+
+	void methodMissing(String name, Object args) {
+		log.error("'$name'項目の読み込みに失敗しました。設定項目、位置が間違っている可能性がありますのでご確認ください。")
+		throw new MissingMethodException(name, this.class, args as Object[])
+	}
+
+	def propertyMissing(String name) {
+		throw new MissingPropertyException("'$name'を参照できません。'$name'が定義されているかをご確認ください。")
 	}
 }
 
