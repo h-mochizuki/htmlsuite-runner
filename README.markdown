@@ -5,17 +5,17 @@ SeleniumServerで複数のHTMLテストスイートを実行するための拡�
 使い方
 ------
 ### 実行方法 ###
-コマンドラインから次を実行してください。
+Linuxの場合
 
-	./gradlew run -Pargs='[DSLファイルパス]'
+	./htmlsuite-runner.sh <DSLファイルパス>
 
-また、Windowsの場合はバッチとして起動可能です。
+Windowsの場合
 
-	./htmlsuite-runner '[DSLファイルパス]'
+	./htmlsuite-runner.bat <DSLファイルパス>
 
 DSLファイルパスを指定しない場合は「./sampleConfiguration.groovy」が読込まれます。
 
-### 設定ファイル構造 ###
+### 設定ファイル構造 及び 設定例 ###
 	testsConfiguration {
 
 		// == 任意項目(デフォルト値があるため、設定しなくても動く) ==
