@@ -2,6 +2,7 @@ package ci.selenium.suites.html
 
 import java.io.IOException;
 import java.io.Writer;
+import java.text.MessageFormat;
 import java.util.List;
 import java.util.logging.Level
 import java.util.logging.Logger
@@ -122,7 +123,26 @@ class SuiteLauncher  extends HTMLLauncher {
 		this.results = new SuiteTestResult(resultsParm);
 	}
 
-	class SuiteTestResult extends HTMLTestResults {
+	static class SuiteTestResult extends HTMLTestResults {
+
+		// 上限を超えたらテンポラリファイルにログ書き出しを行う
+		private static final long MAX_FILE_SIZE = 524288
+		private static final HEADER
+		private static final SUMMARY_HTML
+		private static final SUITE_HTML
+		private HTMLTestResults results
+
+		static {
+			HEADER = getTextVal('HEADER')
+			SUMMARY_HTML = getTextVal('SUMMARY_HTML')
+			SUITE_HTML = getTextVal('SUITE_HTML')
+		}
+
+		static String getTextVal(String fieldName) {
+			def field = HTMLTestResults.class.getDeclaredField(fieldName)
+			field.setAccessible(true)
+			field.get(null)
+		}
 
 		public SuiteTestResult(HTMLTestResults results) {
 			super(
@@ -139,6 +159,7 @@ class SuiteLauncher  extends HTMLLauncher {
 			results.suite.updatedSuite,
 			results.testTables,
 			results.log)
+			this.results = results
 		}
 
 		@Override
@@ -147,13 +168,62 @@ class SuiteLauncher  extends HTMLLauncher {
 			// BufferedWriterを使用する。
 			BufferedWriter writer = null;
 			try {
-				writer = new BufferedWriter(out);
-				super.write(writer);
+				writer = new BufferedWriter(out)
+				writer.write(HEADER);
+				writer.write(MessageFormat.format(SUMMARY_HTML,
+						results.result,
+						results.totalTime,
+						results.numTestTotal,
+						results.numTestPasses,
+						results.numTestFailures,
+						results.numCommandPasses,
+						results.numCommandFailures,
+						results.numCommandErrors,
+						results.seleniumVersion,
+						results.seleniumRevision,
+						results.suite.updatedSuite))
+				writer.write("<table>")
+				for (int i = 0; i < testTables.size(); i++) {
+					String table = testTables.get(i).replace("\u00a0", "&nbsp;")
+					writer.write(MessageFormat.format(SUITE_HTML, i, results.suite.getHref(i), table))
+				}
+				writer.write("</table><pre>\n")
+				if (results.log != null) {
+					writeLog(writer, results.log)
+				}
+				writer.write("</pre></body></html>")
+				writer.flush()
 			} finally {
 				if (writer != null) {
 					writer.close()
 				}
 			}
 		}
+
+		private void writeLog(Writer writer, String log) {
+			if (log != null) {
+				long logSize = log.length()
+				if (logSize < MAX_FILE_SIZE) {
+					// ファイルサイズが上限以下なら直接書込む
+					writer.write(quoteCharacters(log));
+					writer.flush()
+				} else {
+					// 上限より大きいならテンポラリファイルに一度書込む
+					File tmpFile = File.createTempFile("selenium_log_${new Date().format('yyyyMMddHHmmss')}", 'tmp')
+					try {
+						println("$tmpFile.name を作成しました")
+						tmpFile.withWriter { it.write(log) }
+						tmpFile.eachLine {
+							writer.writeLine(quoteCharacters(it))
+							writer.flush()
+						}
+					} finally {
+						tmpFile.delete()
+					}
+				}
+			}
+		}
+
+
 	}
 }
