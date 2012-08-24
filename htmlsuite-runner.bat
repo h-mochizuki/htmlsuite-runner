@@ -1,7 +1,7 @@
 @echo off
 setlocal
 set RUNNER_HOME=%~dp0
-"%RUNNER_HOME%gradlew" clean assemble
+call "%RUNNER_HOME%gradlew" assemble
 if ERRORLEVEL 1 (
 	color 3F
 	pause

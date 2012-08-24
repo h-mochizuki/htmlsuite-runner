@@ -10,8 +10,5 @@ testsConfiguration {
 		}
 	}
 	suite 'src/test/resources/sample-suite1.html'
-	suite {
-		suiteFile 'src/test/resources/sample-suite2.html'
-		resultFile './result-suite2.html'
-	}
+	suite 'src/test/resources/sample-suite2.html'
 }

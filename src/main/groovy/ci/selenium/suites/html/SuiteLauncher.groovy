@@ -33,7 +33,7 @@ class SuiteLauncher  extends HTMLLauncher {
 		this(new SeleniumServer(config), config)
 	}
 
-	SuiteLauncher(SeleniumServer server, TestsConfiguration config) {
+	private SuiteLauncher(SeleniumServer server, TestsConfiguration config) {
 		super(server)
 		remoteControl = server
 		testsConfig = config
@@ -46,7 +46,6 @@ class SuiteLauncher  extends HTMLLauncher {
 		try {
 			// 既に起動している可能性があるため、 最初に停止を行う。
 			doStop(testsConfig.port)
-			doExecute = true
 			remoteControl.start()
 			// テスト実施前処理
 			try {
@@ -55,6 +54,7 @@ class SuiteLauncher  extends HTMLLauncher {
 				throw new RuntimeException("beforeTestにてエラーが発生したため、処理を終了します。", e)
 			}
 			// テスト実施
+			doExecute = true
 			testsConfig.suites.each { suite ->
 				passed &= doTest(suite)
 			}
@@ -118,27 +118,37 @@ class SuiteLauncher  extends HTMLLauncher {
 		}
 	}
 
+	/**
+	 * {@inheritDoc}<p>
+	 * テストスイート実行結果を負荷軽減用拡張クラスにラップします。
+	 * @param resultParm テストスイート実行結果
+	 */
 	@Override
 	public void processResults(HTMLTestResults resultsParm) {
 		this.results = new SuiteTestResult(resultsParm);
 	}
 
+	/**
+	 * ログファイルサイズが大きい場合のCPU負荷軽減対応を行った{@link HTMLTestResults}の拡張クラスです。
+	 * @author hidetoshi.mochizuki
+	 */
 	static class SuiteTestResult extends HTMLTestResults {
 
-		// 上限を超えたらテンポラリファイルにログ書き出しを行う
+		// ロガー
+		private static Logger logger = Logger.getLogger(SuiteTestResult.class.name);
+		// 上限(500KB)を超えたらテンポラリファイルにログ書き出しを行う
 		private static final long MAX_FILE_SIZE = 524288
-		private static final HEADER
-		private static final SUMMARY_HTML
-		private static final SUITE_HTML
+		private static final HEADER = getStaticFieldTextVal('HEADER')
+		private static final SUMMARY_HTML = getStaticFieldTextVal('SUMMARY_HTML')
+		private static final SUITE_HTML = getStaticFieldTextVal('SUITE_HTML')
 		private HTMLTestResults results
 
-		static {
-			HEADER = getTextVal('HEADER')
-			SUMMARY_HTML = getTextVal('SUMMARY_HTML')
-			SUITE_HTML = getTextVal('SUITE_HTML')
-		}
-
-		static String getTextVal(String fieldName) {
+		/**
+		 * {@link HTMLTestResults}クラスの<code>Static</code>フィールド値を取得します。
+		 * @param fieldName フィールド名称
+		 * @return <code>HTMLTestResults</code>クラスの<code>Static</code>フィールド値
+		 */
+		static def getStaticFieldTextVal(String fieldName) {
 			def field = HTMLTestResults.class.getDeclaredField(fieldName)
 			field.setAccessible(true)
 			field.get(null)
@@ -162,6 +172,13 @@ class SuiteLauncher  extends HTMLLauncher {
 			this.results = results
 		}
 
+		/**
+		 * {@inheritDoc}
+		 * <p>
+		 * 結果ファイル書き込みの際CPU負荷が高くなっていたため、
+		 * 負荷を軽減するように対応しました。
+		 * @param out ファイルライタ
+		 */
 		@Override
 		public void write(Writer out) throws IOException {
 			// ファイルサイズが大きいときにCPUが張り付くため、
@@ -200,6 +217,14 @@ class SuiteLauncher  extends HTMLLauncher {
 			}
 		}
 
+		/**
+		 * ログをファイルに出力します。
+		 * <p>
+		 * HTML特殊文字をエスケープする際にCPU負荷が高かったため、
+		 * 一時ファイルに書き出してからエスケープするように対応しています。
+		 * @param writer ファイルライタ
+		 * @param log ログ内容
+		 */
 		private void writeLog(Writer writer, String log) {
 			if (log != null) {
 				long logSize = log.length()
@@ -211,13 +236,14 @@ class SuiteLauncher  extends HTMLLauncher {
 					// 上限より大きいならテンポラリファイルに一度書込む
 					File tmpFile = File.createTempFile("selenium_log_${new Date().format('yyyyMMddHHmmss')}", 'tmp')
 					try {
-						println("$tmpFile.name を作成しました")
+						logger.info("$tmpFile.name を作成しました。")
 						tmpFile.withWriter { it.write(log) }
 						tmpFile.eachLine {
 							writer.writeLine(quoteCharacters(it))
 							writer.flush()
 						}
 					} finally {
+						logger.info("$tmpFile.name を削除しました。")
 						tmpFile.delete()
 					}
 				}
