@@ -40,4 +40,4 @@ jar {
 	from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
 	exclude '**/*.RSA', '**/*.SF', '**/*.DSA'
 }
-manifest.mainAttributes('Main-Class' : 'ci.selenium.suites.html.TestRunner')
+manifest.mainAttributes('Main-Class' : 'htmlsuite_runner.TestRunner')

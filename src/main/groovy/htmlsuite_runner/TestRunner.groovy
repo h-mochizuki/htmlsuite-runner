@@ -1,7 +1,6 @@
-package ci.selenium.suites.html
+package htmlsuite_runner
 
 import groovy.util.logging.Commons
-import ci.selenium.suites.html.model.TestsConfiguration
 
 @Commons
 class TestRunner {

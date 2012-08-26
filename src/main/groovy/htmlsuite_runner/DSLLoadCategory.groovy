@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ci.selenium.suites.html.category
+package htmlsuite_runner
 
 import groovy.util.logging.Commons
 

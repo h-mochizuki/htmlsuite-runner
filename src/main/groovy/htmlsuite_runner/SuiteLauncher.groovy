@@ -1,4 +1,4 @@
-package ci.selenium.suites.html
+package htmlsuite_runner
 
 import java.io.IOException;
 import java.io.Writer;
@@ -10,9 +10,6 @@ import java.util.logging.Logger
 import org.openqa.selenium.server.SeleniumServer
 import org.openqa.selenium.server.htmlrunner.HTMLLauncher
 import org.openqa.selenium.server.htmlrunner.HTMLTestResults
-
-import ci.selenium.suites.html.model.SuiteConfiguration
-import ci.selenium.suites.html.model.TestsConfiguration
 
 /**
  * テストサーバを起動し、HTMLテストスイートを実行します。

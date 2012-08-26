@@ -13,12 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ci.selenium.suites.html.model
+package htmlsuite_runner
 
 import org.openqa.selenium.server.RemoteControlConfiguration
-
-import ci.selenium.suites.html.category.AdditonalDSLRule
-import ci.selenium.suites.html.category.DSLLoadCategory
 
 /**
  * テストの設定を保持するクラス<p>

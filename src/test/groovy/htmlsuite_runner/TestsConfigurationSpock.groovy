@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ci.selenium.suites.html.model
+package htmlsuite_runner
 
 import spock.lang.Specification
 
