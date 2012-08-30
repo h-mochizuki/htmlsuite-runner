@@ -105,6 +105,10 @@ class DSLLoadCategory {
 
 	private static void loadJars(def self, def delegate) {
 		def loader = self.class.classLoader.rootLoader
+		if (loader == null) {
+			// スクリプトの場合、RootLoaderが取れない
+			loader = self.class.classLoader
+		}
 		delegate.metaClass.addJars = { String... args ->
 			if (!args) return
 			for (Object arg : args) {
@@ -119,6 +123,7 @@ class DSLLoadCategory {
 				} else if (file.name =~ /\.jar$/) {
 					loader.addURL(file.toURI().toURL())
 				}
+			loader.URLs.each{ println it }
 			}
 		}
 	}
