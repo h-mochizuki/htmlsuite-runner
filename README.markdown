@@ -42,6 +42,8 @@ DSLファイルパスを指定しない場合は「./sampleConfiguration.groovy�
 		afterTest {
 			println "finish - ${new Date().format('yyyyMMddHHmmss')}"
 		}
+		// 追加したい Jar ファイル
+		addJars 'path/to/jars'
 
 		// == 必須項目(指定しないとテストが動かない) ==
 		// テストスイートファイル(スイートファイルのパスのみ設定可能)

@@ -96,8 +96,31 @@ class DSLLoadCategory {
 				delegate.metaClass."$prop.name" = { self."$prop.name" = it }
 			}
 		}
+		// DSL の追加ルールを設定
 		addDSLRules(self, delegate)
+		// 依存 jar 追加
+		loadJars(self, delegate)
 		return delegate
+	}
+
+	private static void loadJars(def self, def delegate) {
+		def loader = self.class.classLoader.rootLoader
+		delegate.metaClass.addJars = { String... args ->
+			if (!args) return
+			for (Object arg : args) {
+				File file = new File(arg)
+				if (!file.exists()) {
+					return
+				}
+				if (file.directory) {
+					file.listFiles().findAll{ it.name =~ /\.jar$/ }.each{
+						loader.addURL(it.toURL())
+					}
+				} else if (file.name =~ /\.jar$/) {
+					loader.addURL(file.toURI().toURL())
+				}
+			}
+		}
 	}
 
 	private static boolean isDelegatableProperty(MetaBeanProperty prop) {
