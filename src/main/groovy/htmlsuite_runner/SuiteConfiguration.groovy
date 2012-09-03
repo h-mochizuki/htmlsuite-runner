@@ -113,7 +113,7 @@ class SuiteConfiguration {
 	@AdditonalDSLRule
 	void setUp(String scriptPath) {
 		setUps << {
-			new GroovyShell().evaluate(resultFile);
+			new GroovyShell().evaluate(scriptPath);
 		}
 	}
 
