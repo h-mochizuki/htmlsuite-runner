@@ -133,8 +133,6 @@ class SuiteLauncher  extends HTMLLauncher {
 
 		// ロガー
 		private static Logger logger = Logger.getLogger(SuiteTestResult.class.name);
-		// 上限(500KB)を超えたらテンポラリファイルにログ書き出しを行う
-		private static final long MAX_FILE_SIZE = 524288
 		private static final HEADER = getStaticFieldTextVal('HEADER')
 		private static final SUMMARY_HTML = getStaticFieldTextVal('SUMMARY_HTML')
 		private static final SUITE_HTML = getStaticFieldTextVal('SUITE_HTML')
@@ -224,29 +222,63 @@ class SuiteLauncher  extends HTMLLauncher {
 		 */
 		private void writeLog(Writer writer, String log) {
 			if (log != null) {
-				long logSize = log.length()
-				if (logSize < MAX_FILE_SIZE) {
-					// ファイルサイズが上限以下なら直接書込む
-					writer.write(quoteCharacters(log));
-					writer.flush()
-				} else {
-					// 上限より大きいならテンポラリファイルに一度書込む
-					File tmpFile = File.createTempFile("selenium_log_${new Date().format('yyyyMMddHHmmss')}", 'tmp')
-					try {
-						logger.info("$tmpFile.name を作成しました。")
-						tmpFile.withWriter { it.write(log) }
-						tmpFile.eachLine {
-							writer.writeLine(quoteCharacters(it))
-							writer.flush()
-						}
-					} finally {
-						logger.info("$tmpFile.name を削除しました。")
-						tmpFile.delete()
+				File tmpFile = File.createTempFile("selenium_log_${new Date().format('yyyyMMddHHmmss')}", 'tmp')
+				try {
+					logger.info("$tmpFile.name を作成しました。")
+					tmpFile.withWriter("UTF-8") { it.write(log) }
+					tmpFile.eachLine {
+						writer.writeLine(quoteCharacters(it))
+						writer.flush()
 					}
+				} finally {
+					logger.info("$tmpFile.name を削除しました。")
+					tmpFile.delete()
 				}
 			}
 		}
 
+		/**
+		 * HTML特殊文字列をエスケープします。
+		 * <p>
+		 * 全角がUTF-8文字コードとして出力されており、
+		 * {@code &}が{@code &amp;}として出力されてしまったため、
+		 * エスケープに制限を追加しています。
+		 * @param s 対象文字列
+		 * @return エスケープ後文字列
+		 */
+		public static String quoteCharacters(String s) {
+			StringBuffer result = null;
+			int max = s.length();
+			int delta = 0;
+			for (int i = 0; i < max; i++) {
+				char c = s.charAt(i);
+				String replacement = null;
 
+				// 全角対応
+				if (c == '&' && i + 1 < max && s.charAt(i + 1) != '#') {
+					replacement = "&amp;";
+				} else if (c == '<') {
+					replacement = "&lt;";
+				} else if (c == '>') {
+					replacement = "&gt;";
+				} else if (c == '"') {
+					replacement = "&quot;";
+				} else if (c == '\'') {
+					replacement = "&apos;";
+				}
+
+				if (replacement != null) {
+					if (result == null) {
+						result = new StringBuffer(s);
+					}
+					result.replace(i + delta, i + delta + 1, replacement);
+					delta += (replacement.length() - 1);
+				}
+			}
+			if (result == null) {
+				return s;
+			}
+			return result.toString();
+		}
 	}
 }
