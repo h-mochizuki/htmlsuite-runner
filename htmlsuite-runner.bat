@@ -8,7 +8,8 @@ if not exist "%RUNNER_HOME%build\libs\htmlsuite-runner-1.0.jar" (
 		pause
 	)
 )
-java -Dfile.encoding=UTF8 -Dgroovy.file.encoding=UTF-8 -jar "%RUNNER_HOME%build\libs\htmlsuite-runner-1.0.jar" %1
+java -Dfile.encoding=UTF-8 -Dgroovy.file.encoding=UTF-8 -jar "%RUNNER_HOME%build\libs\htmlsuite-runner-1.0.jar" %1
+rem java -jar "%RUNNER_HOME%build\libs\htmlsuite-runner-1.0.jar" %1
 if ERRORLEVEL 1 (
 	color 3F
 	pause

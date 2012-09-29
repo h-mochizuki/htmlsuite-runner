@@ -19,6 +19,10 @@ class SuiteLauncher  extends HTMLLauncher {
 
 	// ロガー
 	private static Logger log = Logger.getLogger(SuiteLauncher.class.name);
+	// 文字コード
+	private static final ENCODING = System.getProperty('file.encoding')
+	// Seleniumが固定で使用している文字コード
+	private static final SELENIUM_ENCODING = '8859_1'
 	/** テスト実行時のスイートファイル配置URL */
 	private static final String TEST_URL_PATH = "../tests/"
 	/** テストサーバ */
@@ -82,7 +86,7 @@ class SuiteLauncher  extends HTMLLauncher {
 		}
 		// テストスイート実行
 		remoteControl.addNewStaticContent(suite.suiteFile.parentFile)
-		String suiteURL = TEST_URL_PATH + URLEncoder.encode(suite.suiteFile.name, 'UTF-8')
+		String suiteURL = TEST_URL_PATH + URLEncoder.encode(suite.suiteFile.name, ENCODING)
 		suite.setResult(runHTMLSuite(
 				suite.browser,
 				suite.baseURL,
@@ -181,11 +185,9 @@ class SuiteLauncher  extends HTMLLauncher {
 			BufferedWriter writer = null;
 			try {
 				writer = new BufferedWriter(out)
-				// UTF-8固定
-				writer.write(HEADER.replaceAll("<head>", '<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">'));
-				// 文字化け回避
+				writer.write(HEADER.replaceAll("<head>", "<head><meta http-equiv='Content-Type' content='text/html; charset=${ENCODING}'>"));
 				writer.write(MessageFormat.format(SUMMARY_HTML,
-						new String(results.result.getBytes("8859_1"), "UTF-8"),
+						new String(results.result.getBytes(SELENIUM_ENCODING), ENCODING),
 						results.totalTime,
 						results.numTestTotal,
 						results.numTestPasses,
@@ -195,17 +197,15 @@ class SuiteLauncher  extends HTMLLauncher {
 						results.numCommandErrors,
 						results.seleniumVersion,
 						results.seleniumRevision,
-						new String(results.suite.updatedSuite.getBytes("8859_1"), "UTF-8")))
+						new String(results.suite.updatedSuite.getBytes(SELENIUM_ENCODING), ENCODING)))
 				writer.write("<table>")
 				for (int i = 0; i < testTables.size(); i++) {
 					String table = testTables.get(i).replace("\u00a0", "&nbsp;")
-					// 文字化け回避
-					writer.write(MessageFormat.format(SUITE_HTML, i, results.suite.getHref(i), new String(table.getBytes("8859_1"), "UTF-8")))
+					writer.write(MessageFormat.format(SUITE_HTML, i, results.suite.getHref(i), new String(table.getBytes(SELENIUM_ENCODING), ENCODING)))
 				}
 				writer.write("</table><pre>\n")
 				if (results.log != null) {
-					// 文字化け回避
-					writeLog(writer, new String(results.log.getBytes("8859_1"), "UTF-8"))
+					writeLog(writer, new String(results.log.getBytes(SELENIUM_ENCODING), ENCODING))
 				}
 				writer.write("</pre></body></html>")
 				writer.flush()
@@ -229,7 +229,7 @@ class SuiteLauncher  extends HTMLLauncher {
 				File tmpFile = File.createTempFile("selenium_log_${new Date().format('yyyyMMddHHmmss')}", 'tmp')
 				try {
 					logger.info("$tmpFile.name を作成しました。")
-					tmpFile.withWriter("UTF-8") { it.write(log) }
+					tmpFile.withWriter(ENCODING) { it.write(log) }
 					tmpFile.eachLine {
 						writer.writeLine(quoteCharacters(it))
 						writer.flush()
