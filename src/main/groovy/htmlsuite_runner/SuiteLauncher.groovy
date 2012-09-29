@@ -1,12 +1,12 @@
+
 package htmlsuite_runner
 
-import java.io.IOException;
-import java.io.Writer;
-import java.text.MessageFormat;
-import java.util.List;
+
+import java.text.MessageFormat
 import java.util.logging.Level
 import java.util.logging.Logger
 
+import org.openqa.jetty.util.StringUtil
 import org.openqa.selenium.server.SeleniumServer
 import org.openqa.selenium.server.htmlrunner.HTMLLauncher
 import org.openqa.selenium.server.htmlrunner.HTMLTestResults
@@ -133,9 +133,9 @@ class SuiteLauncher  extends HTMLLauncher {
 
 		// ロガー
 		private static Logger logger = Logger.getLogger(SuiteTestResult.class.name);
-		private static final HEADER = getStaticFieldTextVal('HEADER')
-		private static final SUMMARY_HTML = getStaticFieldTextVal('SUMMARY_HTML')
-		private static final SUITE_HTML = getStaticFieldTextVal('SUITE_HTML')
+		private static final String HEADER = getStaticFieldTextVal('HEADER')
+		private static final String SUMMARY_HTML = getStaticFieldTextVal('SUMMARY_HTML')
+		private static final String SUITE_HTML = getStaticFieldTextVal('SUITE_HTML')
 		private HTMLTestResults results
 
 		/**
@@ -181,9 +181,11 @@ class SuiteLauncher  extends HTMLLauncher {
 			BufferedWriter writer = null;
 			try {
 				writer = new BufferedWriter(out)
-				writer.write(HEADER);
+				// UTF-8固定
+				writer.write(HEADER.replaceAll("<head>", '<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">'));
+				// 文字化け回避
 				writer.write(MessageFormat.format(SUMMARY_HTML,
-						results.result,
+						new String(results.result.getBytes("8859_1"), "UTF-8"),
 						results.totalTime,
 						results.numTestTotal,
 						results.numTestPasses,
@@ -193,15 +195,17 @@ class SuiteLauncher  extends HTMLLauncher {
 						results.numCommandErrors,
 						results.seleniumVersion,
 						results.seleniumRevision,
-						results.suite.updatedSuite))
+						new String(results.suite.updatedSuite.getBytes("8859_1"), "UTF-8")))
 				writer.write("<table>")
 				for (int i = 0; i < testTables.size(); i++) {
 					String table = testTables.get(i).replace("\u00a0", "&nbsp;")
-					writer.write(MessageFormat.format(SUITE_HTML, i, results.suite.getHref(i), table))
+					// 文字化け回避
+					writer.write(MessageFormat.format(SUITE_HTML, i, results.suite.getHref(i), new String(table.getBytes("8859_1"), "UTF-8")))
 				}
 				writer.write("</table><pre>\n")
 				if (results.log != null) {
-					writeLog(writer, results.log)
+					// 文字化け回避
+					writeLog(writer, new String(results.log.getBytes("8859_1"), "UTF-8"))
 				}
 				writer.write("</pre></body></html>")
 				writer.flush()
