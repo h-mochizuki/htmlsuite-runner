@@ -16,6 +16,7 @@
 package htmlsuite_runner
 
 import groovy.util.logging.Commons
+import groovy.util.logging.Log4j;
 
 import java.lang.annotation.ElementType
 import java.lang.annotation.Retention
@@ -46,7 +47,7 @@ import org.codehaus.groovy.runtime.metaclass.MixinInstanceMetaProperty
  * 
  * @author hidetoshi.mochizuki
  */
-@Commons
+@Log4j
 @Category(Object)
 class DSLLoadCategory {
 
@@ -162,7 +163,7 @@ class DSLLoadCategory {
  * @author hidetoshi.mochizuki
  *
  */
-@Commons
+@Log4j
 private class MissingAlertDelegator {
 
 	void methodMissing(String name, Object args) {

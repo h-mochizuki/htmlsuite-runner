@@ -86,6 +86,7 @@ class SuiteLauncher  extends HTMLLauncher {
 		}
 		// テストスイート実行
 		remoteControl.addNewStaticContent(suite.suiteFile.parentFile)
+		// URLエンコードはUTF-8固定とする
 		String suiteURL = TEST_URL_PATH + URLEncoder.encode(suite.suiteFile.name, ENCODING)
 		suite.setResult(runHTMLSuite(
 				suite.browser,
@@ -137,9 +138,13 @@ class SuiteLauncher  extends HTMLLauncher {
 
 		// ロガー
 		private static Logger logger = Logger.getLogger(SuiteTestResult.class.name);
+		// ログテンプレート：ヘッダ
 		private static final String HEADER = getStaticFieldTextVal('HEADER')
+		// ログテンプレート：結果サマリ
 		private static final String SUMMARY_HTML = getStaticFieldTextVal('SUMMARY_HTML')
+		// ログテンプレート：スイート
 		private static final String SUITE_HTML = getStaticFieldTextVal('SUITE_HTML')
+		// テスト結果
 		private HTMLTestResults results
 
 		/**
